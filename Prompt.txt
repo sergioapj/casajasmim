@@ -1,0 +1,12 @@
+Tenho uma casa na beira de uma represa e que constantemente eu alugo para pessoas utilizarem em finais de semana.
+
+-Gostaria de um aplicativo em HTML que eu possa mandar o link para possiveis clientes acessarem e visualizarem algumas fotos da casa, represa, quartos, etc.
+-Gostaria que o app tivesse a possibilidade de mandar mensagens feitas pelos clientes, com dados (Nome, telefone, mensagem, data da reserva, email e numero de hospedes). O email que eu utulizo é o "sergioapj@gmail.com". O titulo do email deverá ser "Solicitação de informações da Casa Jasmim".
+-O Endereço da Casa é "Condominio Águas Claras - Rua dos Canários, 11 - Ribeirão Claro" e o telefone de contato é "(14) 99776-0261"
+-Abaixo do endereço deverá ter um botão com o texto "Como chegar" e quando o botão for clicado deverá ser aberto o maps.google.com com o link "https://maps.app.goo.gl/gQ1L8mTcmStAhde99"
+-Precisa ter na primeira pagina da aplicação um Logotipo com o nome da casa.
+-A Casa chama-se "Casa Jasmim" e o logotipo esta em anexo.
+
+-Estarei mandando em anexo a imagem "Jasmim.jpg" que deverá ser utilizada como o logotipo da casa.
+-Estarei mandando em anexo a imagem "BG.jpg" que deverá ser utilizada como a tela de fundo  do aplicativo. Você poderá aumentar a transparência na imagem para melhorar a apresentação.
+-Vou mandar também varias fotos numeradas de 1.jpg até 12.jpg que são as fotos de divulgação da casa.

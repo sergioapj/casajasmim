@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Casa Jasmim</title>
+
+  <!-- PWA: manifest e tema -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#2b7a78">
+
+  <!-- iOS support -->
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <style>
+    :root{
+      --accent:#2b7a78;
+      --accent-dark:#1f5b59;
+      --bg-overlay: rgba(0,0,0,0.45);
+      --card-bg: rgba(255,255,255,0.95);
+      --max-width:1100px;
+      --radius:12px;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    html,body{height:100%;margin:0;}
+    body{
+      background: url('BG.jpg') center/cover no-repeat fixed;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:30px 16px;
+      color:#0b2b2b;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    body::before{
+      content:"";
+      position:fixed;inset:0;
+      background:var(--bg-overlay);
+      z-index:0;
+      pointer-events:none;
+    }
+    .container{
+      position:relative;
+      z-index:1;
+      width:100%;
+      max-width:var(--max-width);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.92));
+      border-radius:var(--radius);
+      box-shadow:0 10px 30px rgba(0,0,0,0.35);
+      overflow:hidden;
+    }
+    header{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      padding:18px 22px;
+      border-bottom:1px solid rgba(0,0,0,0.06);
+      background:linear-gradient(90deg, rgba(255,255,255,0.98), rgba(255,255,255,0.9));
+    }
+    .logo{display:flex;align-items:center;gap:12px;}
+    .logo img{height:72px;width:auto;border-radius:8px;object-fit:cover;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+    .title h1{margin:0;font-size:28px;color:var(--accent-dark);}
+    .title p{margin:2px 0 0 0;color:#2b2b2b;font-size:14px;}
+
+    main{display:grid;grid-template-columns: 1fr 380px;gap:22px;padding:22px;}
+    .gallery{background:transparent;border-radius:10px;padding:12px;display:grid;grid-template-columns: repeat(auto-fill,minmax(160px,1fr));gap:12px;align-items:start;}
+    .thumb{position:relative;overflow:hidden;border-radius:8px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.18);border:1px solid rgba(0,0,0,0.06);}
+    .thumb img{width:100%;height:120px;object-fit:cover;display:block;transition:transform .35s ease;}
+    .thumb:hover img{ transform:scale(1.06); }
+
+    aside{background:var(--card-bg);border-radius:10px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.08);height:fit-content;}
+    .address{font-size:14px;color:#123;margin-bottom:12px;}
+    .address strong{display:block;color:var(--accent-dark);font-size:15px;margin-bottom:6px;}
+    .contact-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;}
+    .btn{display:inline-block;background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:600;border:none;cursor:pointer;}
+    .btn.secondary{background:#fff;color:var(--accent-dark);border:1px solid rgba(0,0,0,0.06);}
+
+    form{display:flex;flex-direction:column;gap:10px;}
+    label{font-size:13px;color:#123;}
+    input[type="text"], input[type="tel"], input[type="email"], input[type="date"], input[type="number"], textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);font-size:14px;box-sizing:border-box;background:#fff;}
+    textarea{min-height:100px;resize:vertical;}
+    .form-actions{display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-top:6px;}
+    .note{font-size:13px;color:#444;margin-top:6px;}
+
+    footer{padding:14px 22px;border-top:1px solid rgba(0,0,0,0.04);background:linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);z-index:9999;padding:20px;}
+    .modal.open{display:flex;}
+    .modal img{max-width:95%;max-height:90%;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.6);}
+    .modal .close{position:absolute;top:18px;right:18px;background:rgba(255,255,255,0.9);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#111;cursor:pointer;}
+
+    @media (max-width:900px){
+      main{grid-template-columns:1fr;padding:16px;}
+      .logo img{height:56px;}
+      .title h1{font-size:22px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <header>
+      <div class="logo" aria-hidden="false">
+        <img src="Jasmim.jpg" alt="Logotipo Casa Jasmim" />
+        <div class="title">
+          <h1>Casa Jasmim</h1>
+          <p>Represa · Aluguel para finais de semana</p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="gallery" aria-label="Galeria de fotos">
+        <div class="thumb"><img src="1.jpeg" alt="Foto 1 da Casa Jasmim" data-full="1.jpeg"></div>
+        <div class="thumb"><img src="2.jpeg" alt="Foto 2 da Casa Jasmim" data-full="2.jpeg"></div>
+        <div class="thumb"><img src="3.jpeg" alt="Foto 3 da Casa Jasmim" data-full="3.jpeg"></div>
+        <div class="thumb"><img src="4.jpeg" alt="Foto 4 da Casa Jasmim" data-full="4.jpeg"></div>
+        <div class="thumb"><img src="5.jpeg" alt="Foto 5 da Casa Jasmim" data-full="5.jpeg"></div>
+        <div class="thumb"><img src="6.jpeg" alt="Foto 6 da Casa Jasmim" data-full="6.jpeg"></div>
+        <div class="thumb"><img src="7.jpeg" alt="Foto 7 da Casa Jasmim" data-full="7.jpeg"></div>
+        <div class="thumb"><img src="8.jpeg" alt="Foto 8 da Casa Jasmim" data-full="8.jpeg"></div>
+        <div class="thumb"><img src="9.jpeg" alt="Foto 9 da Casa Jasmim" data-full="9.jpeg"></div>
+        <div class="thumb"><img src="10.jpeg" alt="Foto 10 da Casa Jasmim" data-full="10.jpeg"></div>
+        <div class="thumb"><img src="11.jpeg" alt="Foto 11 da Casa Jasmim" data-full="11.jpeg"></div>
+        <div class="thumb"><img src="12.jpeg" alt="Foto 12 da Casa Jasmim" data-full="12.jpeg"></div>
+      </section>
+
+      <aside aria-label="Informações e contato">
+        <div class="address">
+          <strong>Endereço</strong>
+          Condomínio Águas Claras - Rua dos Canários, 11 - Ribeirão Claro
+        </div>
+
+        <div class="contact-row">
+          <span style="font-weight:700;color:#0b2b2b;">Telefone</span>
+          <span style="margin-left:auto;color:#0b2b2b;">(14) 99776-0261</span>
+        </div>
+
+        <div style="margin:10px 0 14px 0;">
+          <a class="btn" href="https://maps.app.goo.gl/gQ1L8mTcmStAhde99" target="_blank" rel="noopener noreferrer">Como chegar</a>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(0,0,0,0.06);margin:12px 0;">
+
+        <div>
+          <strong>Solicitar informações</strong>
+          <p class="note">Preencha os dados abaixo e clique em Enviar. O seu cliente abrirá o aplicativo de e-mail com a mensagem pronta para envio.</p>
+
+          <form id="contactForm" onsubmit="return sendMail(event)" novalidate>
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" required placeholder="Seu nome completo">
+
+            <label for="telefone">Telefone</label>
+            <input id="telefone" name="telefone" type="tel" required placeholder="(xx) xxxxx-xxxx">
+
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" required placeholder="seu@email.com">
+
+            <label for="data">Data da reserva</label>
+            <input id="data" name="data" type="date">
+
+            <label for="hospedes">Número de hóspedes</label>
+            <input id="hospedes" name="hospedes" type="number" min="1" placeholder="Ex: 6">
+
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" placeholder="Escreva sua mensagem ou dúvidas"></textarea>
+
+            <div class="form-actions">
+              <button type="submit" class="btn">Enviar</button>
+              <button type="reset" class="btn secondary">Limpar</button>
+            </div>
+
+            <p class="note" style="margin-top:8px;">O e-mail será enviado para <strong>sergioapj@gmail.com</strong> com o assunto <strong>Solicitação de informações da Casa Jasmim</strong>.</p>
+          </form>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <img src="Jasmim.jpg" alt="Logo Casa Jasmim pequeno" style="height:40px;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,0.12)">
+        <div style="font-size:14px;color:#123;">
+          <strong>Casa Jasmim</strong><br>
+          Condomínio Águas Claras - Rua dos Canários, 11 - Ribeirão Claro
+        </div>
+      </div>
+      <div style="font-size:13px;color:#333;">Telefone de contato <strong>(14) 99776-0261</strong></div>
+    </footer>
+  </div>
+
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-label="Visualizador de imagem">
+    <div class="close" title="Fechar" onclick="closeModal()">✕</div>
+    <img id="modalImg" src="" alt="Imagem ampliada">
+  </div>
+
+  <script>
+    // Lightbox
+    document.querySelectorAll('.thumb img').forEach(img=>{
+      img.addEventListener('click', ()=> {
+        const src = img.getAttribute('data-full') || img.src;
+        openModal(src, img.alt || 'Foto Casa Jasmim');
+      });
+    });
+    function openModal(src, alt){
+      const modal = document.getElementById('modal');
+      const modalImg = document.getElementById('modalImg');
+      modalImg.src = src;
+      modalImg.alt = alt;
+      modal.classList.add('open');
+    }
+    function closeModal(){
+      const modal = document.getElementById('modal');
+      modal.classList.remove('open');
+      document.getElementById('modalImg').src = '';
+    }
+    document.getElementById('modal').addEventListener('click', function(e){
+      if(e.target === this) closeModal();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeModal();
+    });
+
+    // Formulário: cria mailto com os campos
+    function sendMail(e){
+      e.preventDefault();
+      const nome = encodeURIComponent(document.getElementById('nome').value.trim());
+      const telefone = encodeURIComponent(document.getElementById('telefone').value.trim());
+      const email = encodeURIComponent(document.getElementById('email').value.trim());
+      const data = encodeURIComponent(document.getElementById('data').value);
+      const hospedes = encodeURIComponent(document.getElementById('hospedes').value);
+      const mensagem = encodeURIComponent(document.getElementById('mensagem').value.trim());
+
+      if(!nome || !telefone || !email){
+        alert('Por favor preencha pelo menos Nome, Telefone e E-mail.');
+        return false;
+      }
+
+      const subject = encodeURIComponent('Solicitação de informações da Casa Jasmim');
+
+      let body = '';
+      body += 'Nome: ' + (nome ? decodeURIComponent(nome) : '') + '%0D%0A';
+      body += 'Telefone: ' + (telefone ? decodeURIComponent(telefone) : '') + '%0D%0A';
+      body += 'E-mail: ' + (email ? decodeURIComponent(email) : '') + '%0D%0A';
+      body += 'Data da reserva: ' + (data ? decodeURIComponent(data) : '') + '%0D%0A';
+      body += 'Número de hóspedes: ' + (hospedes ? decodeURIComponent(hospedes) : '') + '%0D%0A%0D%0A';
+      body += 'Mensagem:%0D%0A' + (mensagem ? decodeURIComponent(mensagem) : '') + '%0D%0A';
+
+      const mailto = 'mailto:sergioapj@gmail.com'
+                   + '?subject=' + subject
+                   + '&body=' + encodeURIComponent(body);
+
+      window.location.href = mailto;
+
+      setTimeout(()=> {
+        alert('Seu cliente de e-mail foi aberto com a mensagem pronta. Verifique os dados e clique em Enviar.');
+      }, 500);
+
+      return false;
+    }
+
+    // Registrar service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => {
+            console.log('ServiceWorker registrado', reg);
+          })
+          .catch(err => {
+            console.warn('ServiceWorker falhou', err);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
